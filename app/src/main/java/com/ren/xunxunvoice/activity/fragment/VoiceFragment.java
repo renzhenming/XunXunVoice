@@ -1,6 +1,7 @@
 package com.ren.xunxunvoice.activity.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -15,6 +16,7 @@ import com.github.jdsjlzx.interfaces.OnRefreshListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 import com.ren.xunxunvoice.R;
+import com.ren.xunxunvoice.activity.SpeakActivity;
 import com.ren.xunxunvoice.activity.adapter.VoiceAdapter;
 import com.ren.xunxunvoice.activity.bean.VoiceBean;
 import com.ren.xunxunvoice.activity.utils.ToastUtils;
@@ -24,7 +26,7 @@ import java.util.ArrayList;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class VoiceFragment extends Fragment {
+public class VoiceFragment extends Fragment implements View.OnClickListener {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -46,6 +48,8 @@ public class VoiceFragment extends Fragment {
     private String mParam2;
     private Context mContext;
     private int pageSize = 10;
+
+
 
     public static VoiceFragment newInstance(String param1, String param2) {
         VoiceFragment fragment = new VoiceFragment();
@@ -94,62 +98,69 @@ public class VoiceFragment extends Fragment {
                 .setPadding(R.dimen.default_divider_padding)
                 .setColorResource(R.color.color_eeeeee)
                 .build();
+
         voiceFileList.addItemDecoration(divider);
         voiceFileList.setAdapter(adapter);
         voiceFileList.setLayoutManager(new LinearLayoutManager(mContext));
-
-        voiceFileList.setOnRefreshListener(new OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-
-
-
-            }
-        });
-
-        voiceFileList.setOnLoadMoreListener(new OnLoadMoreListener() {
-            @Override
-            public void onLoadMore() {
-
-                if (mVoiceList.size() == pageSize) {
-                    ToastUtils.showToast(mContext,"加载下一页");
-                } else {
-                    //the end
-                    voiceFileList.setNoMore(true);
-                }
-            }
-        });
-
-        voiceFileList.setLScrollListener(new LRecyclerView.LScrollListener() {
-
-            @Override
-            public void onScrollUp() {
-            }
-
-            @Override
-            public void onScrollDown() {
-            }
-
-
-            @Override
-            public void onScrolled(int distanceX, int distanceY) {
-            }
-
-            @Override
-            public void onScrollStateChanged(int state) {
-
-            }
-
-        });
-
+        voiceFileList.setOnRefreshListener(refreshListener);
+        voiceFileList.setOnLoadMoreListener(loadMoreListener);
+        voiceFileList.setLScrollListener(lScrollListener);
         //设置头部加载颜色
         voiceFileList.setHeaderViewColor(R.color.colorAccent, R.color.colorPrimary ,android.R.color.white);
         //设置底部加载颜色
         voiceFileList.setFooterViewColor(R.color.colorAccent, R.color.colorPrimary ,android.R.color.white);
         //设置底部加载文字提示
         voiceFileList.setFooterViewHint("拼命加载中","已经全部为你呈现了","网络不给力啊，点击再试一次吧");
-
         //voiceFileList.refresh();
+
+        voiceFloatButton.setOnClickListener(this);
+    }
+
+    private OnLoadMoreListener loadMoreListener = new OnLoadMoreListener() {
+        @Override
+        public void onLoadMore() {
+            if (mVoiceList.size() == pageSize) {
+                ToastUtils.showToast(mContext, "加载下一页");
+            } else {
+                //the end
+                voiceFileList.setNoMore(true);
+            }
+        }
+    };
+    private OnRefreshListener refreshListener = new OnRefreshListener() {
+        @Override
+        public void onRefresh() {
+
+
+        }
+    };
+    private LRecyclerView.LScrollListener lScrollListener = new LRecyclerView.LScrollListener() {
+
+        @Override
+        public void onScrollUp() {
+        }
+
+        @Override
+        public void onScrollDown() {
+        }
+
+        @Override
+        public void onScrolled(int distanceX, int distanceY) {
+        }
+
+        @Override
+        public void onScrollStateChanged(int state) {
+
+        }
+    };
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.voice_float_button:
+                startActivity(new Intent(mContext,SpeakActivity.class));
+                break;
+        }
     }
 
     @Override
@@ -157,6 +168,8 @@ public class VoiceFragment extends Fragment {
         super.onDestroyView();
         ButterKnife.reset(this);
     }
+
+
 }
 /**
  *
