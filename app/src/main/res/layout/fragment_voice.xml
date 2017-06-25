@@ -1,0 +1,20 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.ren.xunxunvoice.activity.fragment.VoiceFragment">
+
+    <com.github.jdsjlzx.recyclerview.LRecyclerView
+        android:layout_width="match_parent"
+        android:id="@+id/voice_file_list"
+        android:layout_height="match_parent"></com.github.jdsjlzx.recyclerview.LRecyclerView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:id="@+id/voice_float_button"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/wave_form_mic2_p"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>

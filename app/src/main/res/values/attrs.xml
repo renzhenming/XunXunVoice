@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SwitchItemView">
+        <attr name="item_text" format="string"/>
+        <attr name="item_icon" format="reference"/>
+        <attr name="item_test_size" format="dimension"/>
+        <attr name="item_test_color" format="color"/>
+        <attr name="item_icon_padding_text" format="dimension"/>
+    </declare-styleable>
+</resources>

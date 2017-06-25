@@ -1,0 +1,30 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+        <item name="android:windowAnimationStyle">@style/AnimationActivity</item>
+    </style>
+
+    <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="spinBars">true</item>
+        <item name="color">@android:color/white</item>
+    </style>
+
+    <style name="AnimationActivity" parent="@android:style/Animation.Activity" mce_bogus="1">
+
+        <!--进入一个Acitvity包括两部分，当前Activity退出动画，下个个Activity进入动画-->
+        <item name="android:activityOpenEnterAnimation">@anim/right_in</item>  //下个Activty进入动画
+        <item name="android:activityOpenExitAnimation">@anim/left_out</item> //当前Activity退出的动画
+
+        <!--跳回一个Activity也包括两部分，当前Activity摧毁动画，上个Actiivty进入动画-->
+        <item name="android:activityCloseEnterAnimation">@anim/in</item>  //上个Activity进入动画
+        <item name="android:activityCloseExitAnimation">@anim/out</item>   //当前Activity退出动画
+
+    </style>
+
+</resources>
