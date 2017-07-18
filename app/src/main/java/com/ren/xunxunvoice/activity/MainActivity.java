@@ -1,6 +1,5 @@
 package com.ren.xunxunvoice.activity;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -8,7 +7,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -59,15 +57,7 @@ public class MainActivity extends AppCompatActivity {
     private void initParams() {
         fragmentCacheManager = new FragmentCacheManager();
         fragmentCacheManager.setUp(this, R.id.framelayout);
-
-        fragmentCacheManager.addFragment(VoiceFragment.class,null);
-
-        fragmentCacheManager.setListener(new FragmentCacheManager.onBootCallBackListener() {
-            @Override
-            public void onBootCallBack() {
-
-            }
-        });
+        fragmentCacheManager.addHorizontalFragment(VoiceFragment.class,null);
     }
 
     private void initView() {
@@ -109,16 +99,16 @@ public class MainActivity extends AppCompatActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.main_voice:
-                fragmentCacheManager.addFragment(VoiceFragment.class,null);
+                fragmentCacheManager.addHorizontalFragment(VoiceFragment.class,null);
                 break;
             case R.id.main_voice2:
-                fragmentCacheManager.addFragment(VoiceFragment2.class,null);
+                fragmentCacheManager.addHorizontalFragment(VoiceFragment2.class,null);
                 break;
             case R.id.main_voice3:
-                fragmentCacheManager.addFragment(VoiceFragment3.class,null);
+                fragmentCacheManager.addHorizontalFragment(VoiceFragment3.class,null);
                 break;
             case R.id.main_me:
-                fragmentCacheManager.addFragment(MeFragment.class,null);
+                fragmentCacheManager.addHorizontalFragment(MeFragment.class,null);
                 break;
             }
     }
