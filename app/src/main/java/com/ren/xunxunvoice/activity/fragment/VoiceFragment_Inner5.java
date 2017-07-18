@@ -1,7 +1,6 @@
 package com.ren.xunxunvoice.activity.fragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -16,7 +15,6 @@ import com.github.jdsjlzx.interfaces.OnRefreshListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 import com.ren.xunxunvoice.R;
-import com.ren.xunxunvoice.activity.SpeakActivity;
 import com.ren.xunxunvoice.activity.adapter.VoiceAdapter;
 import com.ren.xunxunvoice.activity.bean.VoiceBean;
 import com.ren.xunxunvoice.activity.utils.ToastUtils;
@@ -88,7 +86,7 @@ public class VoiceFragment_Inner5 extends Fragment implements View.OnClickListen
     private void initView() {
         for (int i = 0; i <10; i++) {
             VoiceBean bean = new VoiceBean();
-            bean.content = "VoiceFragment_Inner_Five"+i;
+            bean.content = "Inner_Five"+i;
             mVoiceList.add(bean);
         }
         final VoiceAdapter voiceAdapter = new VoiceAdapter(mContext,mVoiceList);
@@ -159,7 +157,6 @@ public class VoiceFragment_Inner5 extends Fragment implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.voice_float_button:
-                startActivity(new Intent(mContext,SpeakActivity.class));
                 break;
         }
     }
@@ -173,9 +170,8 @@ public class VoiceFragment_Inner5 extends Fragment implements View.OnClickListen
 
     @Override
     public void onItemClick(int position) {
-        FragmentCacheManager fragmentCacheManager = new FragmentCacheManager();
+        FragmentStackManager fragmentCacheManager = new FragmentStackManager();
         fragmentCacheManager.setUp(getActivity(), R.id.framelayout);
-
         fragmentCacheManager.addInnerFragment(VoiceFragment_Inner5.class,null);
     }
 }

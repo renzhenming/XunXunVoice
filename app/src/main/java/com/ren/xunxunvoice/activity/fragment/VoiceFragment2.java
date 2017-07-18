@@ -1,30 +1,12 @@
 package com.ren.xunxunvoice.activity.fragment;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.github.jdsjlzx.ItemDecoration.DividerDecoration;
-import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
-import com.github.jdsjlzx.interfaces.OnRefreshListener;
-import com.github.jdsjlzx.recyclerview.LRecyclerView;
-import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 import com.ren.xunxunvoice.R;
-import com.ren.xunxunvoice.activity.SpeakActivity;
-import com.ren.xunxunvoice.activity.adapter.VoiceAdapter;
-import com.ren.xunxunvoice.activity.bean.VoiceBean;
-import com.ren.xunxunvoice.activity.utils.ToastUtils;
-
-import java.util.ArrayList;
-
-import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 public class VoiceFragment2 extends Fragment {
 

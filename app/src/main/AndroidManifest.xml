@@ -50,7 +50,7 @@
             android:screenOrientation="portrait">
 
         </activity>
-        <activity android:name=".activity.SpeakActivity"></activity>
+        <activity android:name=".activity.SpeakFragment"></activity>
     </application>
 
 </manifest>

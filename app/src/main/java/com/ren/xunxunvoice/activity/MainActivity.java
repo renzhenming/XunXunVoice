@@ -7,12 +7,13 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 
 import com.ren.xunxunvoice.R;
-import com.ren.xunxunvoice.activity.fragment.FragmentCacheManager;
+import com.ren.xunxunvoice.activity.fragment.FragmentStackManager;
 import com.ren.xunxunvoice.activity.fragment.MeFragment;
 import com.ren.xunxunvoice.activity.fragment.VoiceFragment;
 import com.ren.xunxunvoice.activity.fragment.VoiceFragment2;
@@ -43,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
     FrameLayout framelayout;
     private ArrayList<Fragment> fragments = new ArrayList<>();
     private ActionBarDrawerToggle toggle;
-    private FragmentCacheManager fragmentCacheManager;
+    private FragmentStackManager fragmentCacheManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,9 +56,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initParams() {
-        fragmentCacheManager = new FragmentCacheManager();
+        fragmentCacheManager = new FragmentStackManager();
         fragmentCacheManager.setUp(this, R.id.framelayout);
         fragmentCacheManager.addHorizontalFragment(VoiceFragment.class,null);
+        fragmentCacheManager.setMainFragment(VoiceFragment.class);
     }
 
     private void initView() {
@@ -114,27 +116,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed() {
-        fragmentCacheManager.onBackPress();
-        //super.onBackPressed();
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0){
+            fragmentCacheManager.onBackPress();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
-
-
 }
-
-/**
- * switch (view.getId()) {
- * case R.id.main_voice:
- * fragmentCacheManager.setCurrentFragment(1);
- * break;
- * case R.id.main_voice2:
- * fragmentCacheManager.setCurrentFragment(2);
- * break;
- * case R.id.main_voice3:
- * fragmentCacheManager.setCurrentFragment(3);
- * break;
- * case R.id.main_me:
- * fragmentCacheManager.setCurrentFragment(4);
- * break;
- * }
- */

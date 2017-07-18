@@ -5,4 +5,9 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="minute_before">分钟前</string>
+    <string name="minutes_before">分钟前</string>
+    <string name="yesterday">昨天</string>
+    <string name="a_moment_ago">刚刚</string>
+    <string name="the_day_before_yesterday">前天</string>
 </resources>

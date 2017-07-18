@@ -15,7 +15,6 @@
         android:id="@+id/voice_float_button"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:src="@drawable/wave_form_mic2_p"
         android:layout_height="wrap_content" />
 
 </RelativeLayout>

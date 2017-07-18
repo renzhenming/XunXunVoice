@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.ren.xunxunvoice.R;
 import com.ren.xunxunvoice.activity.bean.VoiceBean;
+import com.ren.xunxunvoice.activity.utils.TimeFormatUtil;
 
 import java.util.ArrayList;
 
@@ -62,7 +63,7 @@ public class VoiceAdapter extends RecyclerView.Adapter {
         }
 
         public void setData(VoiceBean voiceBean) {
-            content.setText(voiceBean.content);
+            content.setText(voiceBean.content+" -- "+TimeFormatUtil.getInterval(context,System.currentTimeMillis()));
         }
     }
 
