@@ -3,6 +3,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:paddingBottom="5dp"
     android:paddingTop="5dp"
+    android:layout_gravity="center"
     android:gravity="center_vertical"
     android:layout_height="wrap_content">
 
@@ -10,12 +11,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
+        android:gravity="center"
         android:id="@+id/item_voice_content"
         android:textSize="@dimen/text_16"
         android:textColor="@color/color_333333"
         />
 
     <TextView
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:padding="10dp"

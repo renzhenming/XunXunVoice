@@ -33,9 +33,16 @@ public class VoiceAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         VoiceHolder voiceHolder = (VoiceHolder) holder;
         voiceHolder.setData(voiceList.get(position));
+        voiceHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listener != null)
+                    listener.onItemClick(position);
+            }
+        });
     }
 
     @Override
@@ -57,5 +64,15 @@ public class VoiceAdapter extends RecyclerView.Adapter {
         public void setData(VoiceBean voiceBean) {
             content.setText(voiceBean.content);
         }
+    }
+
+    private OnItemClickListener listener;
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
+    }
+
+    public interface OnItemClickListener{
+        void onItemClick(int position);
     }
 }

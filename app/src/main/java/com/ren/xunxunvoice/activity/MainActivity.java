@@ -1,20 +1,24 @@
 package com.ren.xunxunvoice.activity;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 
 import com.ren.xunxunvoice.R;
-import com.ren.xunxunvoice.activity.adapter.MainAdapter;
+import com.ren.xunxunvoice.activity.fragment.FragmentCacheManager;
 import com.ren.xunxunvoice.activity.fragment.MeFragment;
 import com.ren.xunxunvoice.activity.fragment.VoiceFragment;
+import com.ren.xunxunvoice.activity.fragment.VoiceFragment2;
+import com.ren.xunxunvoice.activity.fragment.VoiceFragment3;
 import com.ren.xunxunvoice.activity.utils.ToastUtils;
 import com.ren.xunxunvoice.activity.view.SwitchItemView;
 
@@ -32,10 +36,16 @@ public class MainActivity extends AppCompatActivity {
     SwitchItemView mainMe;
     @InjectView(R.id.main_drawer)
     DrawerLayout mainDrawer;
-    @InjectView(R.id.main_viewpager)
-    ViewPager mainViewpager;
+
+    @InjectView(R.id.main_voice2)
+    SwitchItemView mainVoice2;
+    @InjectView(R.id.main_voice3)
+    SwitchItemView mainVoice3;
+    @InjectView(R.id.framelayout)
+    FrameLayout framelayout;
     private ArrayList<Fragment> fragments = new ArrayList<>();
     private ActionBarDrawerToggle toggle;
+    private FragmentCacheManager fragmentCacheManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +53,21 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
         initView();
+        initParams();
+    }
+
+    private void initParams() {
+        fragmentCacheManager = new FragmentCacheManager();
+        fragmentCacheManager.setUp(this, R.id.framelayout);
+
+        fragmentCacheManager.addFragment(VoiceFragment.class,null);
+
+        fragmentCacheManager.setListener(new FragmentCacheManager.onBootCallBackListener() {
+            @Override
+            public void onBootCallBack() {
+
+            }
+        });
     }
 
     private void initView() {
@@ -50,14 +75,6 @@ public class MainActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
-
-        VoiceFragment voiceFragment = new VoiceFragment();
-        MeFragment meFragment = new MeFragment();
-        fragments.add(voiceFragment);
-        fragments.add(meFragment);
-
-        MainAdapter adapter = new MainAdapter(getSupportFragmentManager(), fragments);
-        mainViewpager.setAdapter(adapter);
 
         toggle = new ActionBarDrawerToggle(this, mainDrawer, R.string.open, R.string.close) {
             @Override
@@ -88,13 +105,46 @@ public class MainActivity extends AppCompatActivity {
         return toggle.onOptionsItemSelected(item);
     }
 
-    @OnClick({R.id.main_voice, R.id.main_me})
-    public void onClick(View view) {
+    @OnClick({R.id.main_voice, R.id.main_voice2, R.id.main_voice3, R.id.main_me})
+    public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.main_voice:
+                fragmentCacheManager.addFragment(VoiceFragment.class,null);
+                break;
+            case R.id.main_voice2:
+                fragmentCacheManager.addFragment(VoiceFragment2.class,null);
+                break;
+            case R.id.main_voice3:
+                fragmentCacheManager.addFragment(VoiceFragment3.class,null);
                 break;
             case R.id.main_me:
+                fragmentCacheManager.addFragment(MeFragment.class,null);
                 break;
-        }
+            }
     }
+
+    @Override
+    public void onBackPressed() {
+        fragmentCacheManager.onBackPress();
+        //super.onBackPressed();
+    }
+
+
 }
+
+/**
+ * switch (view.getId()) {
+ * case R.id.main_voice:
+ * fragmentCacheManager.setCurrentFragment(1);
+ * break;
+ * case R.id.main_voice2:
+ * fragmentCacheManager.setCurrentFragment(2);
+ * break;
+ * case R.id.main_voice3:
+ * fragmentCacheManager.setCurrentFragment(3);
+ * break;
+ * case R.id.main_me:
+ * fragmentCacheManager.setCurrentFragment(4);
+ * break;
+ * }
+ */
