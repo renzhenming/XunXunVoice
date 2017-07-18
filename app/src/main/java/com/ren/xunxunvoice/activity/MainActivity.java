@@ -59,7 +59,6 @@ public class MainActivity extends AppCompatActivity {
         fragmentCacheManager = new FragmentStackManager();
         fragmentCacheManager.setUp(this, R.id.framelayout);
         fragmentCacheManager.addHorizontalFragment(VoiceFragment.class,null);
-        fragmentCacheManager.setMainFragment(VoiceFragment.class);
     }
 
     private void initView() {

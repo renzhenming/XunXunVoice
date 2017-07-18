@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.ren.xunxunvoice.R;
@@ -18,11 +17,19 @@ public class FragmentStackManager {
     private int mContainerId;
     private long mLastBackTime;
     private onBootCallBackListener listener;
+    private static boolean BOTTOME_TAB_HOME = false;
+    private static final String HOME_FRAGMENT = "VoiceFragment";
 
-    //if true when click back will clear fragment back stack but home(first page)
-    //else will pop top fragment if back once
-    private static boolean MODE_IMMEDIATE_HOME = false;
-    private static String mMainFragment;
+    /**
+     * We divide the current patterns into two categories:check bottom and check inner
+     * check bottom means we add fragment to fragment transition horizontally,
+     * check inner means we add fragment to fragment transition layering by layering
+     * for this two mode ,we have different method to resolve,so make clear that you know
+     * which mode you are in now.
+     * if true when click back will clear fragment back stack but home(first page)
+     * else will pop top fragment if back once
+     */
+    private static boolean MODE_IS_CHECK_BOTTOM = false;
 
     public void setUp(FragmentActivity activity, int containerId) {
         this.mActivity = activity;
@@ -38,7 +45,7 @@ public class FragmentStackManager {
      * @param arguments
      */
     public void addInnerFragment(Class<?> clazz, Bundle arguments) {
-        MODE_IMMEDIATE_HOME = false;
+        MODE_IS_CHECK_BOTTOM = false;
         if (clazz == null)
             return;
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
@@ -68,16 +75,6 @@ public class FragmentStackManager {
     }
 
     /**
-     * indicate the first showing fragment,it like a launch page for the application
-     * @param clazz
-     */
-    public void setMainFragment(Class<?> clazz){
-        if (clazz == null)
-            return;
-        mMainFragment = clazz.getSimpleName();
-    }
-
-    /**
      * used in bottom tab fragment ,when switch tab,you need to hide the other
      * fragment for the reach of showing this fragment normally
      *
@@ -86,8 +83,8 @@ public class FragmentStackManager {
      */
     public void addHorizontalFragment(Class<?> clazz, Bundle arguments) {
 
-        //when switch from addInner to addHorizontal,the first thing to do is clear back stack but first fragment
-        if (MODE_IMMEDIATE_HOME == false){
+        //when switch from addInner to addHorizontal,the first thing to do is clear back stack without first fragment
+        if (MODE_IS_CHECK_BOTTOM == false){
             int backStackEntryCount = mFragmentManager.getBackStackEntryCount();
             if (backStackEntryCount > 1) {
                 while (mFragmentManager.getBackStackEntryCount() > 1) {
@@ -95,7 +92,7 @@ public class FragmentStackManager {
                 }
             }
         }
-        MODE_IMMEDIATE_HOME = true;
+        MODE_IS_CHECK_BOTTOM = true;
         if (clazz == null)
             return;
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
@@ -109,7 +106,14 @@ public class FragmentStackManager {
             }
         }
 
+        //check if this is the home fragment, if so, when click back,we need to clear the fragment back stack
+        // then tell the user that is going to out
         String tag = clazz.getSimpleName();
+        if (tag.equals(HOME_FRAGMENT)){
+            BOTTOME_TAB_HOME = true;
+        }else{
+            BOTTOME_TAB_HOME = false;
+        }
         Fragment fragment;
 
         try {
@@ -164,20 +168,19 @@ public class FragmentStackManager {
         if (count <= 1) {
             mActivity.finish();
         } else {
-            if (MODE_IMMEDIATE_HOME){
+            if (MODE_IS_CHECK_BOTTOM){
                 int backStackEntryCount = mFragmentManager.getBackStackEntryCount();
                 if (backStackEntryCount > 1) {
-                    /*FragmentManager.BackStackEntry backStackEntryAt = mFragmentManager.getBackStackEntryAt(0);
-                    String name = backStackEntryAt.getName();
-                    if (!TextUtils.isEmpty(name) && TextUtils.equals(name,mMainFragment)){
-                        while (mFragmentManager.getBackStackEntryCount() > 0) {
-                            mFragmentManager.popBackStackImmediate();
-                        }
-                    }else{*/
+                    if (BOTTOME_TAB_HOME){
                         while (mFragmentManager.getBackStackEntryCount() > 1) {
                             mFragmentManager.popBackStackImmediate();
                         }
-                   /* }*/
+                        onBackPress();
+                    }else{
+                        while (mFragmentManager.getBackStackEntryCount() > 1) {
+                            mFragmentManager.popBackStackImmediate();
+                        }
+                    }
                 }
             }else{
                 mFragmentManager.popBackStackImmediate();
