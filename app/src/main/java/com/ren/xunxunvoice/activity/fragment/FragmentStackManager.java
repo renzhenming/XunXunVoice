@@ -22,7 +22,7 @@ public class FragmentStackManager {
 
     /**
      * We divide the current patterns into two categories:check bottom and check inner
-     * check bottom means we add fragment to fragment transition horizontally,
+     * check bottom means we add fragment to fragment transition horizontally,often used in bottom tabs
      * check inner means we add fragment to fragment transition layering by layering
      * for this two mode ,we have different method to resolve,so make clear that you know
      * which mode you are in now.
@@ -45,6 +45,15 @@ public class FragmentStackManager {
      * @param arguments
      */
     public void addInnerFragment(Class<?> clazz, Bundle arguments) {
+        //when switch from addHorizontal to addInner ,the first thing to do is clear back stack without first fragment too like addHorizontal method
+        if (MODE_IS_CHECK_BOTTOM == true){
+            int backStackEntryCount = mFragmentManager.getBackStackEntryCount();
+            if (backStackEntryCount > 1) {
+                while (mFragmentManager.getBackStackEntryCount() > 1) {
+                    mFragmentManager.popBackStackImmediate();
+                }
+            }
+        }
         MODE_IS_CHECK_BOTTOM = false;
         if (clazz == null)
             return;
