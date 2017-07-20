@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/LRecyclerview_library/LRecyclerview_library.iml" filepath="$PROJECT_DIR$/LRecyclerview_library/LRecyclerview_library.iml" />
       <module fileurl="file://$PROJECT_DIR$/XunXunVoice.iml" filepath="$PROJECT_DIR$/XunXunVoice.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ndkmode/ndkmode.iml" filepath="$PROJECT_DIR$/ndkmode/ndkmode.iml" />
     </modules>
   </component>
 </project>

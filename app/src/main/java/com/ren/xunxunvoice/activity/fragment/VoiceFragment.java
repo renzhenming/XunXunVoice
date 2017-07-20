@@ -8,20 +8,17 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.github.jdsjlzx.ItemDecoration.DividerDecoration;
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.github.jdsjlzx.interfaces.OnRefreshListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
-import com.github.jdsjlzx.util.RecyclerViewUtils;
 import com.ren.xunxunvoice.R;
 import com.ren.xunxunvoice.activity.MainActivity;
 import com.ren.xunxunvoice.activity.SpeakFragment;
 import com.ren.xunxunvoice.activity.adapter.VoiceAdapter;
 import com.ren.xunxunvoice.activity.bean.VoiceBean;
-import com.ren.xunxunvoice.activity.utils.TimeFormatUtil;
 import com.ren.xunxunvoice.activity.utils.ToastUtils;
 
 import java.util.ArrayList;
@@ -164,7 +161,7 @@ public class VoiceFragment extends Fragment implements View.OnClickListener, Voi
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.voice_float_button:
-                fragmentCacheManager.addInnerFragment(SpeakFragment.class,null);
+                fragmentCacheManager.addDuplicateInnerFragment(SpeakFragment.class,null);
                 break;
         }
     }
@@ -178,6 +175,6 @@ public class VoiceFragment extends Fragment implements View.OnClickListener, Voi
 
     @Override
     public void onItemClick(int position) {
-        fragmentCacheManager.addInnerFragment(VoiceFragment_Inner1.class,null);
+        fragmentCacheManager.addDuplicateInnerFragment(VoiceFragment_Inner1.class,null);
     }
 }

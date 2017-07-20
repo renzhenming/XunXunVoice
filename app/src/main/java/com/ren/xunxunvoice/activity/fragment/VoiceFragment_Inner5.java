@@ -172,6 +172,6 @@ public class VoiceFragment_Inner5 extends Fragment implements View.OnClickListen
     public void onItemClick(int position) {
         FragmentStackManager fragmentCacheManager = new FragmentStackManager();
         fragmentCacheManager.setUp(getActivity(), R.id.framelayout);
-        fragmentCacheManager.addInnerFragment(VoiceFragment_Inner5.class,null);
+        fragmentCacheManager.addDuplicateInnerFragment(VoiceFragment_Inner5.class,null);
     }
 }

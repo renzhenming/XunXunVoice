@@ -40,11 +40,11 @@ public class FragmentStackManager {
     /**
      * used in showing a fragment in an activity or in a fragment,you don't have to hide the other fragment
      * when you are going to show another fragment,cause when you want to back you will find the last fragment is right here
-     *
+     * (this can add one fragment many times,it will not reuse object exists)
      * @param clazz
      * @param arguments
      */
-    public void addInnerFragment(Class<?> clazz, Bundle arguments) {
+    public void addDuplicateInnerFragment(Class<?> clazz, Bundle arguments) {
         //when switch from addHorizontal to addInner ,the first thing to do is clear back stack without first fragment too like addHorizontal method
         if (MODE_IS_CHECK_BOTTOM == true){
             int backStackEntryCount = mFragmentManager.getBackStackEntryCount();
@@ -62,6 +62,48 @@ public class FragmentStackManager {
         transaction.setCustomAnimations(R.anim.right_in, R.anim.right_out, R.anim.right_in, R.anim.right_out);
         String tag = clazz.getSimpleName();
         Fragment fragment;
+
+        try {
+            fragment = (Fragment) clazz.newInstance();
+            if (arguments != null) {
+                fragment.setArguments(arguments);
+            }
+            transaction.add(mContainerId, fragment, tag).addToBackStack(tag);
+            transaction.commitAllowingStateLoss();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
+     * used in showing a fragment in an activity or in a fragment,you don't have to hide the other fragment
+     * when you are going to show another fragment,cause when you want to back you will find the last fragment is right here
+     * (in the stack if there is already a same fragment exists,this will reuse that fragment ,not add a new fragment)
+     * @param clazz
+     * @param arguments
+     */
+    public void addInnedFragment(Class<?> clazz, Bundle arguments) {
+        //when switch from addHorizontal to addInner ,the first thing to do is clear back stack without first fragment too like addHorizontal method
+        if (MODE_IS_CHECK_BOTTOM == true){
+            int backStackEntryCount = mFragmentManager.getBackStackEntryCount();
+            if (backStackEntryCount > 1) {
+                while (mFragmentManager.getBackStackEntryCount() > 1) {
+                    mFragmentManager.popBackStackImmediate();
+                }
+            }
+        }
+        MODE_IS_CHECK_BOTTOM = false;
+        if (clazz == null)
+            return;
+        FragmentTransaction transaction = mFragmentManager.beginTransaction();
+        //set replace and pop back stack animation
+        transaction.setCustomAnimations(R.anim.right_in, R.anim.right_out, R.anim.right_in, R.anim.right_out);
+        String tag = clazz.getSimpleName();
+        Fragment fragment;
+
         try {
             fragment = mFragmentManager.findFragmentByTag(tag);
 
